@@ -1,0 +1,23 @@
+{
+  "name": "geometry-data",
+  "version": "1.0.0",
+  "description": "A powerful node.js library that uses the geometry browser api.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ProCoda/geometry-data.git"
+  },
+  "keywords": [
+    "node.js",
+    "geometrydash"
+  ],
+  "author": "ProCoda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ProCoda/geometry-data/issues"
+  },
+  "homepage": "https://github.com/ProCoda/geometry-data#readme"
+}
