@@ -9,7 +9,8 @@ class Comment {
      * likes: Number,
      * date: string,
      * profile: Profile,
-     * color: string
+     * color: string,
+     * levelID: string
      * }} options 
      */
     constructor(options){
@@ -19,6 +20,7 @@ class Comment {
         this.date = options.date;
         this.profile = options.profile;
         this.color = options.color;
+        this.levelID = options.levelID;
     }
 }
 

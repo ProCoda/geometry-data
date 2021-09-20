@@ -2,6 +2,8 @@
 const fetch = require("node-fetch");
 const ProfilePost = require("./ProfilePost");
 const Comment = require("./Comment");
+const robComments = require('./comments.json');
+
 
 class Profile {
     /**
@@ -66,34 +68,46 @@ class Profile {
     }
 
     async fetchProfilePosts() {
-        const profilePosts = await fetch(`https://gdbrowser.com/api/comments/${this.accountID}?type=profile`).json();
+        var profilePosts;
+        await fetch(`https://gdbrowser.com/api/comments/${this.accountID}?type=profile`)
+        .then(response => response.json())
+        .then(data => {
+            profilePosts = data;
+        });
         var array = [];
-        profilePosts.forEach(profilePost => {
+        for(var profilePostNum in profilePosts) {
+            var profilePost = profilePosts[profilePostNum];
             array.push(new ProfilePost({
                 content: profilePost.content,
                 id: profilePost.ID,
                 likes: profilePost.likes,
                 date: profilePost.date
             }));
-        });
+        }
 
         return array;
     }
 
     async fetchCommentHistory() {
-        const comments = await fetch(`https://gdbrowser.com/api/comments/${this.playerID}?type=commentHistory`).json();
+        var comments;
+        await fetch(`https://gdbrowser.com/api/comments/${this.playerID}?type=commentHistory`)
+            .then(response => response.json())
+            .then(data => {
+                comments = data
+            });
         var array = [];
-        comments.forEach(comment => {
+        for(var commentNum in comments) {
+            var comment = comments[commentNum];
             array.push(new Comment({
                 content: comment.content,
                 id: comment.ID,
                 likes: comment.likes,
                 date: comment.date,
                 profile: this,
-                color: comment.color
-                
+                color: comment.color,
+                levelID: comment.levelID        
             }));
-        });
+        }
 
         return array;
     }

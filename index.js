@@ -30,14 +30,13 @@ async function findProfile(query) {
         ufo: `https://gdbrowser.com/icon/${profile.username}?form=ufo`,
         wave: `https://gdbrowser.com/icon/${profile.username}?form=wave`,
         robot: `https://gdbrowser.com/icon/${profile.username}?form=robot`,
-        spider: `https://gdbrowser.com/icon/${profile.username}?form=spider`
+        spider: `https://gdbrowser.com/icon/${profile.username}?form=spider`,
+        deathEffect: profile.deathEffect,
+        glow: profile.glow
     });
 
 }
-(async () => {
-   const profile = await findProfile('colon');
-   console.log(profile.spider);
-})();
+
 
 
 module.exports = {
