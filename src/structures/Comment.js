@@ -1,3 +1,4 @@
+const Level = require("./Level");
 const Profile = require("./Profile");
 
 class Comment {
@@ -10,7 +11,7 @@ class Comment {
      * date: string,
      * profile: Profile,
      * color: string,
-     * levelID: string
+     * level: Level
      * }} options 
      */
     constructor(options){
@@ -20,7 +21,7 @@ class Comment {
         this.date = options.date;
         this.profile = options.profile;
         this.color = options.color;
-        this.levelID = options.levelID;
+        this.level = options.level;
     }
 }
 

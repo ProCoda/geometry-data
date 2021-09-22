@@ -1,6 +1,10 @@
-const Profile = require("../structures/Profile");
-const Song = require("../structures/Song");
+const Profile = require("./Profile");
+const Song = require("./Song");
 const fetch = require('node-fetch');
+const Comment = require("./Comment");
+const index = require('../../index');
+const LeaderBoardProfile = require('./LeaderBoardProfile');
+
 
 class Level {
     /**
@@ -23,8 +27,7 @@ class Level {
      * version: Number,
      * copiedID: string,
      * twoPlayer: boolean,
-     * officalSong: Number,
-     * customSong: Number,
+     * customSong: boolean,
      * coins: Number,
      * verifiedCoins: boolean,
      * starsRequested: Number,
@@ -32,8 +35,7 @@ class Level {
      * large: boolean,
      * creatorPoints: Number,
      * difficultyPng: string,
-     * song: Song,
-     * demonList: Number
+     * song: Song
      * }} options 
      */
     constructor(options = {}){
@@ -63,7 +65,6 @@ class Level {
         this.large = options.large;
         this.difficultyPng = options.difficultyPng;
         this.song = options.song;
-        this.demonList = options.demonList;
     }
 
     async fetchComments(top = true){
@@ -74,9 +75,49 @@ class Level {
         } else {
             url = `https://gdbrowser.com/api/comments/${this.id}`
         }
+        var array = [];
+        await fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                comments = data;
+            });
+        
+        for(var commentNum in comments){
+            var comment = comments[commentNum];
+            array.push(new Comment({
+                content: comment.content,
+                id: comment.ID,
+                likes: comment.likes,
+                date: comment.date,
+                profile: this,
+                color: comment.color,
+                level: await index.findLevel(comment.levelID)
+            }));
+        }
 
+        return array;
         
+    }
+
+    async fetchLeaderBoard(){
+        var leaderboard;
+        var array = [];
+        await fetch(`https://gdbrowser.com/api/leaderboardLevel/${this.id}`)
+            .then(response => response.json())
+            .then(data => {
+                leaderboard = data;
+            });
         
+        for(var leaderBoardNum in leaderboard){
+            var leaderBoardProfile = leaderboard[leaderBoardNum];
+            array.push(new LeaderBoardProfile((await index.findProfile()).toJSON(), {
+                leaderBoardRank: parseInt(leaderBoardProfile.rank),
+                percent: leaderBoardProfile.percent,
+                coins: leaderBoardProfile.coins,
+                date: leaderBoardProfile.date
+            }));
+        }
+        return array;
     }
 }
 

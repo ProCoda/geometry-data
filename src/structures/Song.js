@@ -4,7 +4,7 @@ class Song {
      * @param {{
      * name: string,
      * author: string,
-     * size: string,
+     * megabytes: number,
      * id: string,
      * link: string
      * }} options 
@@ -12,7 +12,7 @@ class Song {
     constructor(options={}){
         this.name = options.name;
         this.author = options.author;
-        this.size = options.size;
+        this.megabytes = options.megabytes;
         this.id = options.id;
         this.link = options.link;
     }

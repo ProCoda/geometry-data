@@ -1,6 +1,9 @@
 
 const Profile = require("./src/structures/Profile");
 const fetch = require('node-fetch');
+const Level = require("./src/structures/Level");
+const Song = require("./src/structures/Song");
+
 
 async function findProfile(query) {
     var profile = await fetch(`https://gdbrowser.com/api/profile/${query}`);
@@ -37,8 +40,61 @@ async function findProfile(query) {
 
 }
 
+async function findLevel(levelID){
+    var level = await fetch(`https://gdbrowser.com/api/level/${levelID}`);
+    level = level.json();
+    var customSong;
 
+    if(level.customSong == 0){
+        customSong = false;
+    } else {
+        customSong = true
+    }
+
+    return new Level({
+        name: level.name,
+        id: level.id,
+        description: level.description,
+        author: findProfile(level.accountID),
+        difficulty: level.difficulty,
+        difficultyPng: `https://gdbrowser.com/assets/difficulties/${level.difficulty}.png`,
+        downloads: level.downloads,
+        likes: level.likes,
+        disliked: level.disliked,
+        length: level.length,
+        stars: level.stars,
+        orbs: level.orbs,
+        diamonds: level.diamonds,
+        featured: level.featured,
+        epic: level.epic,
+        gameVersion: level.gameVersion,
+        version: level.version,
+        copiedID: level.copiedID,
+        twoPlayer: level.twoPlayer,
+        customSong: customSong,
+        coins: level.coins,
+        verifiedCoins: level.verifiedCoins,
+        starsRequested: level.starsRequested,
+        objects: level.objects,
+        large: level.large,
+        creatorPoints: level.creatorPoints,
+        song: new Song({
+            name: level.songName,
+            author: level.songAuthor,
+            megabytes: parseInt(level.songSize.match('/\d+/')[0]),
+            id: level.songID,
+            link: level.songLink 
+        }),
+
+    });
+}
+
+(async () => {
+    const level = await findLevel('6508283');
+    console.log(level.orbs);
+})()
 
 module.exports = {
-    findProfile: findProfile
+    findProfile: findProfile,
+    findLevel: findLevel
 }

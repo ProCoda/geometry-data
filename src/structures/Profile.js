@@ -3,6 +3,12 @@ const fetch = require("node-fetch");
 const ProfilePost = require("./ProfilePost");
 const Comment = require("./Comment");
 const robComments = require('./comments.json');
+const index = require('../../index');
+var moderatorTypes = [
+    'NONE',
+    'MOD',
+    'ELDER'
+]
 
 
 class Profile {
@@ -22,7 +28,7 @@ class Profile {
      * friendRequests: boolean, 
      * messages: string, 
      * commentHistory: string, 
-     * moderator: Number
+     * moderator: Number,
      * youtube: string,
      * twitter: string,
      * twitch: string,
@@ -38,7 +44,7 @@ class Profile {
      * }
      * } options 
      */
-    constructor(options = {}) {
+    constructor(options) {
         this.username = options.username;
         this.playerID = options.playerID;
         this.accountID = options.accountID;
@@ -52,7 +58,7 @@ class Profile {
         this.friendRequests = options.friendRequests;
         this.messages = options.messages;
         this.commentHistory = options.commentHistory;
-        this.moderator = options.moderator;
+        this.moderator = moderatorTypes[options.moderator];
         this.youtube = options.youtube;
         this.twitter = options.twitter;
         this.twitch = options.twitch;
@@ -105,11 +111,42 @@ class Profile {
                 date: comment.date,
                 profile: this,
                 color: comment.color,
-                levelID: comment.levelID        
+                level: await index.findLevel(comment.levelID)        
             }));
         }
 
         return array;
+    }
+
+    async toJSON(){
+        return {
+            username : this.username,
+            playerID : this.playerID,
+            accountID : this.accountID,
+            rank : this.rank,
+            stars : this.stars,
+            diamonds : this.diamonds,
+            coins : this.coins,
+            userCoins : this.userCoins,
+            demons : this.demons,
+            creatorPoints : this.creatorPoints,
+            friendRequests : this.friendRequests,
+            messages : this.messages,
+            commentHistory : this.commentHistory,
+            moderator : moderatorTypes[this.moderator],
+            youtube : this.youtube,
+            twitter : this.twitter,
+            twitch : this.twitch,
+            glow : this.glow,
+            cube : this.cube,
+            ship : this.ship,
+            ball : this.ball,
+            ufo : this.ufo,
+            wave : this.wave,
+            robot : this.robot,
+            spider : this.spider,
+            deathEffect : this.deathEffect,
+        }
     }
 }
 
