@@ -1,17 +1,21 @@
 const Profile = require("./Profile");
 
-class LeaderboardProfile extends Profile {
+class LeaderboardProfile{
     /**
+     * @param {Profile} profile
+     * 
      * @param {{
      * leaderBoardRank: Number,
      * percent: Number,
      * coins: Number,
-     * date: string
+     * leaderBoardType: string
+     * date: string,
+     * levelLeaderBoard: boolean
      * }} leaderBoardProfileOptions 
      * 
      */
-    constructor(options, leaderBoardProfileOptions) {
-        super(options);
+    constructor(profile, leaderBoardProfileOptions) {
+        this.profile = profile;
         this.leaderBoardRank = leaderBoardProfileOptions.leaderBoardRank;
         this.percent = leaderBoardProfileOptions.percent;
         this.coins = leaderBoardProfileOptions.coins;

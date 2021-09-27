@@ -41,8 +41,12 @@ async function findProfile(query) {
 }
 
 async function findLevel(levelID){
-    var level = await fetch(`https://gdbrowser.com/api/level/${levelID}`);
-    level = level.json();
+    var level;
+    await fetch(`https://gdbrowser.com/api/level/${levelID}`)
+        .then(response => response.json())
+        .then(data => {
+            level = data;
+        });
     var customSong;
 
     if(level.customSong == 0){
@@ -50,6 +54,7 @@ async function findLevel(levelID){
     } else {
         customSong = true
     }
+
 
     return new Level({
         name: level.name,
@@ -81,7 +86,7 @@ async function findLevel(levelID){
         song: new Song({
             name: level.songName,
             author: level.songAuthor,
-            megabytes: parseInt(level.songSize.match('/\d+/')[0]),
+            megabytes: parseInt(level.songSize.replace('MB', '')),
             id: level.songID,
             link: level.songLink 
         }),
@@ -91,10 +96,8 @@ async function findLevel(levelID){
 
 (async () => {
     const level = await findLevel('6508283');
-    console.log(level.orbs);
+    console.log(await level.fetchLeaderBoard());
 })()
 
-module.exports = {
-    findProfile: findProfile,
-    findLevel: findLevel
-}
+exports.findProfile = findProfile;
+exports.findLevel = findLevel;

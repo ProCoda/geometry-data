@@ -3,7 +3,7 @@ const Song = require("./Song");
 const fetch = require('node-fetch');
 const Comment = require("./Comment");
 const index = require('../../index');
-const LeaderBoardProfile = require('./LeaderBoardProfile');
+const LevelLeaderBoardProfile = require('./LevelLeaderBoardProfile');
 
 
 class Level {
@@ -110,11 +110,12 @@ class Level {
         
         for(var leaderBoardNum in leaderboard){
             var leaderBoardProfile = leaderboard[leaderBoardNum];
-            array.push(new LeaderBoardProfile((await index.findProfile()).toJSON(), {
+            array.push(new LevelLeaderBoardProfile({
                 leaderBoardRank: parseInt(leaderBoardProfile.rank),
                 percent: leaderBoardProfile.percent,
                 coins: leaderBoardProfile.coins,
-                date: leaderBoardProfile.date
+                date: leaderBoardProfile.date,
+                profile: await index.findProfile(leaderBoardProfile.accountID)
             }));
         }
         return array;
