@@ -3,6 +3,8 @@ const Profile = require("./src/structures/Profile");
 const fetch = require('node-fetch');
 const Level = require("./src/structures/Level");
 const Song = require("./src/structures/Song");
+const geoData = require('geometry-data');
+
 
 
 async function findProfile(query) {
@@ -94,10 +96,7 @@ async function findLevel(levelID){
     });
 }
 
-(async () => {
-    const level = await findLevel('6508283');
-    console.log(await level.fetchLeaderBoard());
-})()
+
 
 exports.findProfile = findProfile;
 exports.findLevel = findLevel;

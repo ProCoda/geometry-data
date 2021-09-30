@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ProCoda/geometry-data/issues"
   },
-  "homepage": "https://github.com/ProCoda/geometry-data#readme"
+  "homepage": "https://github.com/ProCoda/geometry-data#readme",
+  "dependencies": {
+    "geometry-data": "github:ProCoda/geometry-data"
+  }
 }
